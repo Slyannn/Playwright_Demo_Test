@@ -42,7 +42,7 @@ Heal.dev_Test/
 1. **Cloner le projet**
    ```bash
    git clone <repository-url>
-   cd Heal.dev_Test
+   cd Playwright_Demo_Test
    ```
 
 2. **Installer les dépendances**
