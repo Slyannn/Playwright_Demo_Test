@@ -169,8 +169,18 @@ test.describe('DemoQA Form Tests avec Faker', () => {
     // Attendre un peu avant la soumission pour s'assurer que tout est rempli
     await newForm.page.waitForTimeout(1000);
 
-    await newForm.submitForm();
-    await newForm.validateFormDataMatchesModal();
-    await newForm.closeModal();
+    // Vérifier que les champs sont bien remplis avant soumission
+    const formValues = await newForm.getFormValues();
+    console.log('📋 Valeurs avant soumission:', formValues);
+    
+    // Seulement soumettre si les champs obligatoires sont remplis
+    if (formValues.firstName && formValues.lastName && formValues.email && formValues.mobile) {
+      await newForm.submitForm();
+      await newForm.validateFormDataMatchesModal();
+      await newForm.closeModal();
+    } else {
+      console.log('❌ Champs obligatoires manquants, pas de soumission');
+      throw new Error('Les champs obligatoires ne sont pas remplis correctement');
+    }
   });
 });

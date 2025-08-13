@@ -425,10 +425,25 @@ export class PracticeFormPage {
 
     async ensureNoModalOpen() {
         // Vérifier si un modal est ouvert et le fermer si nécessaire
-        const isModalVisible = await this.page.locator(this.confirmationModal).isVisible().catch(() => false);
-        if (isModalVisible) {
-            console.log('⚠️ Modal détecté ouvert, fermeture...');
-            await this.closeModal();
+        try {
+            const isModalVisible = await this.page.locator(this.confirmationModal).isVisible().catch(() => false);
+            if (isModalVisible) {
+                console.log('⚠️ Modal détecté ouvert, fermeture...');
+                await this.page.click(this.modalCloseButton, { timeout: 2000 });
+                await this.page.waitForTimeout(1000);
+                
+                // Vérifier à nouveau et forcer la fermeture si nécessaire
+                const stillVisible = await this.page.locator(this.confirmationModal).isVisible().catch(() => false);
+                if (stillVisible) {
+                    console.log('⚠️ Modal encore ouvert, fermeture forcée...');
+                    await this.page.keyboard.press('Escape');
+                    await this.page.waitForTimeout(500);
+                }
+            }
+        } catch (error) {
+            console.log('⚠️ Erreur lors de la fermeture du modal, tentative de page refresh...');
+            await this.page.reload();
+            await this.page.waitForTimeout(2000);
         }
     }
 }
