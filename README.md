@@ -6,6 +6,7 @@ Ce projet contient une suite complète de tests automatisés pour valider le for
 
 - **Validation automatisée** de tous les éléments du formulaire
 - **Vérification de l'intégrité des données** entre formulaire et modal de confirmation
+- **Tests d'upload de fichiers** (documents et images)
 - **Tests avec données dynamiques** générées par Faker
 - **Couverture multi-navigateurs** (Chrome, Firefox, Safari)
 
@@ -20,6 +21,9 @@ Ce projet contient une suite complète de tests automatisés pour valider le for
 
 ```
 Heal.dev_Test/
+├── assets/
+│   ├── test-document.txt       # Fichier texte pour tests d'upload
+│   └── sample-image.png        # Image pour tests d'upload
 ├── pages/
 │   └── PracticeFormPage.ts     # Page Object principal
 ├── tests/
@@ -258,12 +262,14 @@ npx playwright install-deps
 ### 1. Tests de Base (`basicForm.spec.ts`)
 - ✅ **Validation des éléments obligatoires** (présence et éditabilité)
 - ✅ **Tests de sélection de genre** (Male, Female, Other)
+- ✅ **Tests d'upload de fichiers** avec validation modal
 - ✅ **Validation du format mobile** (10 chiffres exactement)
 - ✅ **Soumission avec champs minimum requis**
 - ✅ **Validation de la correspondance formulaire ↔ modal**
 
 ### 2. Tests avec Faker (`form-with-faker.spec.ts`)
 - 🎲 **Génération automatique de données** réalistes
+- 📁 **Tests d'upload de fichiers** (documents et images)
 - 🔄 **Tests multi-utilisateurs** avec différents profils
 - 🌍 **Variations de données** géographiques et démographiques
 - 🎯 **Tests edge cases** avec données limites

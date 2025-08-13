@@ -193,7 +193,15 @@ export class PracticeFormPage {
     }
 
     async uploadPicture(filePath: string) {
+        // Attendre que l'input file soit visible
+        await expect(this.page.locator(this.pictureUpload)).toBeVisible();
+        
+        // Upload du fichier
         await this.page.setInputFiles(this.pictureUpload, filePath);
+        
+        // Vérifier que le fichier a été uploadé (le nom du fichier apparaît à côté de l'input)
+        const fileName = filePath.split(/[/\\]/).pop() || '';
+        console.log(`📁 Fichier uploadé: ${fileName}`);
     }
 
     async fillCurrentAddress(address: string) {
@@ -353,6 +361,20 @@ export class PracticeFormPage {
         
         console.log('✅ Valeurs extraites du modal:', modalData);
         return modalData;
+    }
+
+    async validateUploadedFile(expectedFileName: string) {
+        console.log('🔍 Validation du fichier uploadé dans le modal...');
+        const modalData = await this.getModalValues();
+        const pictureValue = modalData['Picture'] || '';
+        
+        if (pictureValue.includes(expectedFileName)) {
+            console.log(`✅ Fichier "${expectedFileName}" trouvé dans le modal !`);
+            return true;
+        } else {
+            console.log(`❌ Fichier attendu: "${expectedFileName}", trouvé: "${pictureValue}"`);
+            return false;
+        }
     }
 
     async validateFormDataMatchesModal() {

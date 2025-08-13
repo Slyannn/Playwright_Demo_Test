@@ -146,4 +146,26 @@ test.describe('DemoQA Basic Form Tests', () => {
     
     console.log('✅ Form structure validation passed');
   });*/
+
+  test('should upload file and include it in form submission', async () => {
+    await form.fillFirstName('Jane');
+    await form.fillLastName('Smith');
+    await form.fillEmail('jane.smith@example.com');
+    await form.selectGender('Female');
+    await form.fillMobileNumber('9876543210');
+    
+    // Upload d'un fichier
+    await form.uploadPicture('assets/test-document.txt');
+    
+    await form.fillCurrentAddress('456 Oak Avenue, Town, Country');
+
+    await form.submitForm();
+    
+    // Valider que le fichier est inclus dans le modal
+    const isFileUploaded = await form.validateUploadedFile('test-document.txt');
+    expect(isFileUploaded).toBe(true);
+    
+    await form.validateFormDataMatchesModal();
+    await form.closeModal();
+  });
 });

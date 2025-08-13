@@ -1,0 +1,12 @@
+Test Document for File Upload
+==============================
+
+Ce fichier est utilisé pour tester la fonctionnalité d'upload de fichiers dans le formulaire d'inscription étudiant.
+
+Contenu de test :
+- Nom du fichier : test-document.txt
+- Type : Document texte
+- Taille : Petite (< 1KB)
+- Encoding : UTF-8
+
+Créé pour les tests automatisés Playwright.

@@ -123,6 +123,72 @@ test.describe('DemoQA Form Tests avec Faker', () => {
     await form.closeModal();
   });
 
+  test('should test file upload functionality', async () => {
+    const testData = {
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      email: faker.internet.email(),
+      mobile: faker.string.numeric(10),
+      address: faker.location.streetAddress()
+    };
+
+    console.log('📁 Test d\'upload de fichier avec données:', testData);
+
+    // Remplir les champs obligatoires
+    await form.fillFirstName(testData.firstName);
+    await form.fillLastName(testData.lastName);
+    await form.fillEmail(testData.email);
+    await form.selectGender('Male');
+    await form.fillMobileNumber(testData.mobile);
+    await form.fillCurrentAddress(testData.address);
+
+    // Upload du fichier de test
+    const filePath = 'assets/test-document.txt';
+    await form.uploadPicture(filePath);
+
+    // Soumettre le formulaire
+    await form.submitForm();
+    
+    // Valider que le fichier apparaît dans le modal
+    const isFileValidated = await form.validateUploadedFile('test-document.txt');
+    expect(isFileValidated).toBe(true);
+    
+    await form.closeModal();
+  });
+
+  test('should test image upload functionality', async () => {
+    const testData = {
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      email: faker.internet.email(),
+      mobile: faker.string.numeric(10),
+      address: faker.location.streetAddress()
+    };
+
+    console.log('🖼️ Test d\'upload d\'image avec données:', testData);
+
+    // Remplir les champs obligatoires
+    await form.fillFirstName(testData.firstName);
+    await form.fillLastName(testData.lastName);
+    await form.fillEmail(testData.email);
+    await form.selectGender('Female');
+    await form.fillMobileNumber(testData.mobile);
+    await form.fillCurrentAddress(testData.address);
+
+    // Upload de l'image de test
+    const filePath = 'assets/sample-image.png';
+    await form.uploadPicture(filePath);
+
+    // Soumettre le formulaire
+    await form.submitForm();
+    
+    // Valider que l'image apparaît dans le modal
+    const isFileValidated = await form.validateUploadedFile('sample-image.png');
+    expect(isFileValidated).toBe(true);
+    
+    await form.closeModal();
+  });
+
   test('should test with complete form including subjects and hobbies', async ({ page }) => {
     // Créer une nouvelle instance pour éviter les conflits
     const newForm = new PracticeFormPage(page);
