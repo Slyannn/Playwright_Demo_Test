@@ -129,19 +129,7 @@ export class PracticeFormPage {
     }
 
     async selectGender(gender: string) {
-        switch(gender.toLowerCase()) {
-            case 'male':
-                await this.page.click(this.genderMaleRadio, { force: true });
-                break;
-            case 'female':
-                await this.page.click(this.genderFemaleRadio, { force: true });
-                break;
-            case 'other':
-                await this.page.click(this.genderOtherRadio, { force: true });
-                break;
-            default:
-                throw new Error(`Invalid gender: ${gender}`);
-        }
+        await this.page.locator('label[for^="gender-radio-"]', { hasText: gender }).click({ force: true });
     }
 
     async fillMobileNumber(mobileNumber: string) {
@@ -176,20 +164,7 @@ export class PracticeFormPage {
     async selectHobby(hobby: string) {
         // S'assurer qu'aucun modal n'interfère
         await this.ensureNoModalOpen();
-        
-        switch(hobby.toLowerCase()) {
-            case 'sports':
-                await this.page.click(this.hobbySportsCheckbox, { force: true });
-                break;
-            case 'reading':
-                await this.page.click(this.hobbyReadingCheckbox, { force: true });
-                break;
-            case 'music':
-                await this.page.click(this.hobbyMusicCheckbox, { force: true });
-                break;
-            default:
-                throw new Error(`Invalid hobby: ${hobby}`);
-        }
+        await this.page.locator('label[for^=hobbies-checkbox-]', {hasText: hobby}).click({ force: true });
     }
 
     async uploadPicture(filePath: string) {
